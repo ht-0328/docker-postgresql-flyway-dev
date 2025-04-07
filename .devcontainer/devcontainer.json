@@ -1,0 +1,39 @@
+{
+    "name": "db",
+    "build": {
+        "dockerfile": "${localWorkspaceFolder}/docker/Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "mhutchie.git-graph",
+                "donjayamanne.githistory",
+                "eamodio.gitlens",
+                "ms-azuretools.vscode-docker",
+                "redhat.vscode-yaml"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "files.watcherExclude": {
+                    "**/pgdata/**": true
+                }
+            }
+        }
+    },
+    "workspaceFolder": "/workspace",
+    "mounts": [
+        "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/.devcontainer/git/.ssh,target=/root/.ssh,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/.devcontainer/git/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
+    ],
+    // 🧪 PostgreSQL の環境変数（初期化に必須）
+    "containerEnv": {
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWORD": "password",
+        "POSTGRES_DB": "appdb"
+    },
+    // 💻 リソース制限・ポートフォワード
+    "runArgs": ["--memory=2g", "--cpus=2", "-p", "5432:5432"],
+    // 🔥 Dockerfile の CMD ["postgres"] を無視しないようにする
+    "overrideCommand": false
+}
