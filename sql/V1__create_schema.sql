@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS master;
+
+COMMENT ON SCHEMA master IS 'マスター情報';
